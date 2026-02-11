@@ -30,6 +30,13 @@ const COLOR_THEMES = [
     { id: 'corporate', name: 'رسمي', accent: '#94A3B8', secondary: '#171717' },
 ];
 
+const AVAILABLE_LOGOS = [
+    { id: 'main', path: '/logos/Logo.svg', name: 'شعار رئيسي' },
+    { id: 'white', path: '/logos/alinvestor white.svg', name: 'شعار أبيض' },
+    { id: 'v1', path: '/logos/Logo (1).svg', name: 'موديل 1' },
+    { id: 'v2', path: '/logos/Logo (2).svg', name: 'موديل 2' },
+];
+
 const App: React.FC = () => {
     const [design, setDesign] = useState<DesignState>(INITIAL_STATE);
     const [aiState, setAiState] = useState<AIState>({ isLoading: false, error: null });
@@ -141,8 +148,8 @@ const App: React.FC = () => {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`tab-button ${activeTab === tab.id
-                                    ? 'tab-active'
-                                    : 'tab-inactive'
+                                ? 'tab-active'
+                                : 'tab-inactive'
                                 }`}
                         >
                             <Icon name={tab.icon as any} size={16} />
@@ -222,7 +229,7 @@ const App: React.FC = () => {
                                             className="file-label"
                                         >
                                             <Icon name="Upload" size={16} />
-                                            <span className="file-label-text">رفع شعار (PNG/SVG)</span>
+                                            <span className="file-label-text">رفع شعار مخصص</span>
                                         </label>
                                     </div>
                                     {design.logoUrl && (
@@ -234,6 +241,19 @@ const App: React.FC = () => {
                                             <Icon name="Undo" size={16} />
                                         </button>
                                     )}
+                                </div>
+
+                                <div className="logo-selection-grid">
+                                    {AVAILABLE_LOGOS.map(logo => (
+                                        <button
+                                            key={logo.id}
+                                            onClick={() => updateField('logoUrl', logo.path)}
+                                            className={`logo-item-btn ${design.logoUrl === logo.path ? 'logo-item-active' : ''}`}
+                                            title={logo.name}
+                                        >
+                                            <img src={logo.path} alt={logo.name} className="logo-preview-img" />
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
@@ -248,8 +268,8 @@ const App: React.FC = () => {
                                                 updateField('secondaryColor', theme.secondary);
                                             }}
                                             className={`theme-btn ${design.accentColor === theme.accent && design.secondaryColor === theme.secondary
-                                                    ? 'theme-active'
-                                                    : ''
+                                                ? 'theme-active'
+                                                : ''
                                                 }`}
                                         >
                                             <div className="theme-icon">
